@@ -9,6 +9,9 @@ import java.awt.*;
  */
 public class LoginForm {
 
+    /**
+     * Declare variables
+     */
     private JPanel panel;
     private JButton signInButton;
     private JTextField passwordTextField;
@@ -17,6 +20,9 @@ public class LoginForm {
     private JLabel passwordLabel;
     private JButton registerButton;
 
+    /**
+     * Constructor
+     */
     public LoginForm() {
         //construct components
         signInButton = new JButton("Sign in");

@@ -11,8 +11,14 @@ import javax.swing.*;
  */
 public class MainForm {
 
+    /**
+     * Declare variables.
+     */
     private JFrame mainFrame;
 
+    /**
+     * Constructor
+     */
     public MainForm(){
         mainFrame = new JFrame("Marketplace Application");
         setLookAndFeel();
