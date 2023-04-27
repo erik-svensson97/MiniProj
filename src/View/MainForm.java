@@ -1,7 +1,7 @@
 package View;
 
+import Controller.Client;
 import com.formdev.flatlaf.FlatDarculaLaf;
-import com.formdev.flatlaf.FlatIntelliJLaf;
 
 import javax.swing.*;
 
@@ -15,11 +15,14 @@ public class MainForm {
      * Declare variables.
      */
     private JFrame mainFrame;
+    private Client c;
 
     /**
      * Constructor
      */
-    public MainForm(){
+    public MainForm(Client c){
+        //Assign variables.
+        this.c = c;
         mainFrame = new JFrame("Marketplace Application");
         setLookAndFeel();
         setLoginPanel();
@@ -34,7 +37,8 @@ public class MainForm {
      * Sets the login panel when the application starts.
      */
     public void setLoginPanel(){
-        LoginForm lf = new LoginForm();
+        //Create an object of the LoginForm and send the previously created controller to it.
+        LoginForm lf = new LoginForm(c);
         mainFrame.getContentPane().add(lf.getLoginPanel());
     }
 

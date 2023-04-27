@@ -1,7 +1,12 @@
 package View;
 
+import Controller.Client;
+
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.io.IOException;
 
 /**
  * This class is the LoginForm where users can sign in or register.
@@ -19,11 +24,14 @@ public class LoginForm {
     private JLabel userNameLabel;
     private JLabel passwordLabel;
     private JButton registerButton;
+    private Client c;
 
     /**
      * Constructor
      */
-    public LoginForm() {
+    public LoginForm(Client c) {
+        //Assign variables.
+        this.c = c;
         //construct components
         signInButton = new JButton("Sign in");
         passwordTextField = new JTextField (5);
@@ -52,6 +60,33 @@ public class LoginForm {
         userNameLabel.setBounds (385, 180, 100, 25);
         passwordLabel.setBounds (385, 240, 100, 25);
         registerButton.setBounds (410, 345, 120, 25);
+
+        //Add listeners for the buttons.
+        addListeners();
+    }
+
+    public void addListeners(){
+        signInButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                try {
+                    c.sendMessageToServer("Sign in.");
+                } catch (IOException ex) {
+                    throw new RuntimeException(ex);
+                }
+            }
+        });
+
+        registerButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                try {
+                    c.sendMessageToServer("Register.");
+                } catch (IOException ex) {
+                    throw new RuntimeException(ex);
+                }
+            }
+        });
     }
 
 
