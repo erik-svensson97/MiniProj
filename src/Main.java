@@ -1,5 +1,8 @@
+import View.MainForm;
+
 public class Main {
     public static void main(String[] args) {
-        System.out.println("hej");
+        //Startar main fönstret.
+        MainForm main = new MainForm();
     }
 }
