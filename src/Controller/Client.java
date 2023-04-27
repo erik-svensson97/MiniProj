@@ -65,18 +65,31 @@ public class Client {
                 InputStream in = socket.getInputStream();
                 BufferedReader reader = new BufferedReader(new InputStreamReader(in));
                 while (true) {
-                    String response = reader.readLine();
-                    if (response == null) {
+                    String message = reader.readLine();
+                    if (message == null) {
                         // If the response is null, the server has closed the connection.
                         System.out.println("Connection to server closed.");
                         break;
                     }
-                    System.out.println("Response from server: " + response);
+                    handleMessagesFromServer(message);
                 }
             } catch (IOException e) {
                 e.printStackTrace();
             }
         }).start();
+    }
+
+    /**
+     * Handles messages from the server.
+     * The function decides what to do based on the message.
+     * @param message
+     */
+    public void handleMessagesFromServer(String message){
+        System.out.println("Response from server: " + message);
+        switch(message){
+            //Add code here to do different things based on message.
+            //An example would be switching the view.
+        }
     }
 
 }

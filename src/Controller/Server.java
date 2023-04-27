@@ -35,7 +35,7 @@ public class Server {
                     String inputLine;
                     while ((inputLine = in.readLine()) != null) {
                         //Redirect messages from the client to this function.
-                        readMessageFromClient(inputLine);
+                        handleMessageFromClient(inputLine);
                     }
                     //in.close();
                     //clientSocket.close();
@@ -47,10 +47,10 @@ public class Server {
     }
 
     /**
-     * This function reads the messages from the client.
-     * After reading a message, it decides what to do.
+     * Handles messages from the client.
+     * The function decides what to do based on the message.
      */
-    public void readMessageFromClient(String message) throws IOException {
+    public void handleMessageFromClient(String message) throws IOException {
         System.out.println("Message from the client is: " + message);
         sendMessageToClient("The server recieved the message.");
         switch(message){
