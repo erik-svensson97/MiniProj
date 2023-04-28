@@ -12,7 +12,7 @@ import java.io.IOException;
  * This class is the LoginForm where users can sign in or register.
  * @Author Mahmoud Daabas
  */
-public class LoginForm {
+public class LoginForm implements ActionListener{
 
     /**
      * Declare variables
@@ -30,7 +30,7 @@ public class LoginForm {
      * Constructor
      */
     public LoginForm(Client c) {
-        //Assign variables.
+        //Assign the client variable to the local one.
         this.c = c;
         //construct components
         signInButton = new JButton("Sign in");
@@ -65,28 +65,14 @@ public class LoginForm {
         addListeners();
     }
 
+    /**
+     * Adds a ActionListener and ActionCommands to the buttons.
+     */
     public void addListeners(){
-        signInButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                try {
-                    c.sendMessageToServer("Sign in.");
-                } catch (IOException ex) {
-                    throw new RuntimeException(ex);
-                }
-            }
-        });
-
-        registerButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                try {
-                    c.sendMessageToServer("Register.");
-                } catch (IOException ex) {
-                    throw new RuntimeException(ex);
-                }
-            }
-        });
+        signInButton.addActionListener(this);
+        signInButton.setActionCommand("signIn");
+        registerButton.addActionListener(this);
+        registerButton.setActionCommand("register");
     }
 
 
@@ -96,6 +82,28 @@ public class LoginForm {
      */
     public JPanel getLoginPanel(){
         return this.panel;
+    }
+
+    /**
+     * Handles button clicks.
+     * @param e the event to be processed
+     */
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        String action = e.getActionCommand();
+        System.out.println(action);
+        try{
+            switch(action){
+                case "signIn":
+                    c.sendMessageToServer("sign in");
+                    break;
+                case "register":
+                    c.sendMessageToServer("register");
+                    break;
+            }
+        } catch (IOException ex) {
+            throw new RuntimeException(ex);
+        }
     }
 }
 
