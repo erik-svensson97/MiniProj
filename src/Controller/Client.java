@@ -1,9 +1,11 @@
 package Controller;
 
+import Model.Product;
 import View.MainForm;
 
 import java.io.*;
 import java.net.Socket;
+import java.util.ArrayList;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
@@ -18,9 +20,8 @@ public class Client {
      * Declare variables
      */
     private Socket socket;
-    private PrintWriter out;
-    private InputStream in;
     private MainForm mainForm;
+    private ObjectOutputStream oos;
 
     /**
      * Constructor
@@ -44,40 +45,45 @@ public class Client {
      */
     public void connectToServer() throws IOException {
         socket = new Socket("localhost", 8080);
+        oos = new ObjectOutputStream(socket.getOutputStream());
     }
 
     /**
      * Sends a message to the server.
-     * @param message The message to send.
+     * @param price The type of the product to send.
+     * @param price The price of the product to send.
      * @throws IOException
      */
-    public void sendMessageToServer(String message) throws IOException {
-        out = new PrintWriter(socket.getOutputStream(), true);
-        out.println(message);
+    public void sendMessageToServer(String type, double price) throws IOException {
+        Product product = new Product(type, price);
+        oos.writeObject(product);
+        oos.flush();
     }
 
     /**
-     * Reads a message that was recieved from the server?
+     * Reads a message that was received from the server.
      */
     public void readMessagesFromServer() {
         new Thread(() -> {
             try {
-                InputStream in = socket.getInputStream();
-                BufferedReader reader = new BufferedReader(new InputStreamReader(in));
+                ObjectInputStream ois = new ObjectInputStream(socket.getInputStream());
                 while (true) {
-                    String message = reader.readLine();
-                    if (message == null) {
-                        // If the response is null, the server has closed the connection.
-                        System.out.println("Connection to server closed.");
-                        break;
+                    Object object = ois.readObject();
+                    if(object instanceof String){
+                        String s = (String) object;
+                        handleMessagesFromServer(s);
                     }
-                    handleMessagesFromServer(message);
                 }
             } catch (IOException e) {
+                e.printStackTrace();
+            } catch (ClassNotFoundException e) {
+                e.printStackTrace();
+            } catch (Exception e) {
                 e.printStackTrace();
             }
         }).start();
     }
+
 
     /**
      * Handles messages from the server.

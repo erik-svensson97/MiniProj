@@ -1,8 +1,11 @@
 package Controller;
 
+import Model.Product;
+
 import java.io.*;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.util.ArrayList;
 
 /**
  * This is the server class.
@@ -15,10 +18,10 @@ public class Server {
      */
     private ServerSocket serverSocket;
     private Socket clientSocket;
-    private PrintWriter out;
+    private ObjectOutputStream oos;
 
     /**
-     * This function starts the server when its called.
+     * This function starts the server when it's called.
      * @throws IOException
      */
     public void startServer() throws IOException {
@@ -27,20 +30,22 @@ public class Server {
 
         while (true) {
             clientSocket = serverSocket.accept();
+            oos = new ObjectOutputStream(clientSocket.getOutputStream());
             System.out.println("Client connected: " + clientSocket.getInetAddress());
-
             new Thread(() -> {
                 try {
-                    BufferedReader in = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
-                    String inputLine;
-                    while ((inputLine = in.readLine()) != null) {
-                        //Redirect messages from the client to this function.
-                        handleMessageFromClient(inputLine);
+                    ObjectInputStream ois = new ObjectInputStream(clientSocket.getInputStream());
+                    while(true){
+                        Object object = ois.readObject();
+                        if(object instanceof Product){
+                            Product p = (Product) object;
+                            handleMessageFromClient(p);
+                        }
                     }
-                    //in.close();
-                    //clientSocket.close();
                 } catch (IOException e) {
                     e.printStackTrace();
+                } catch (ClassNotFoundException e) {
+                    throw new RuntimeException(e);
                 }
             }).start();
         }
@@ -50,12 +55,10 @@ public class Server {
      * Handles messages from the client.
      * The function decides what to do based on the message.
      */
-    public void handleMessageFromClient(String message) throws IOException {
-        System.out.println("Message from the client is: " + message);
-        sendMessageToClient("The server recieved the message.");
-        switch(message){
-            //Add cases here to do different things based on the message.
-        }
+    public void handleMessageFromClient(Product p) throws IOException {
+        System.out.println("Received Product object from client: " + p.getType() + " " + p.getPrice());
+        //Do something with the product.
+        sendMessageToClient("The server received the product.");
     }
 
     /**
@@ -64,8 +67,8 @@ public class Server {
      * @throws IOException
      */
     public void sendMessageToClient(String message) throws IOException {
-        out = new PrintWriter(clientSocket.getOutputStream(), true);
-        out.println(message);
+        oos.writeObject(message);
+        oos.flush();
     }
 
     /**

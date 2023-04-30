@@ -91,14 +91,13 @@ public class LoginForm implements ActionListener{
     @Override
     public void actionPerformed(ActionEvent e) {
         String action = e.getActionCommand();
-        System.out.println(action);
         try{
             switch(action){
                 case "signIn":
-                    c.sendMessageToServer("sign in");
+                    c.sendMessageToServer("Macbook Pro", 5000);
                     break;
                 case "register":
-                    c.sendMessageToServer("register");
+                    c.sendMessageToServer("IPhone 11", 2500);
                     break;
             }
         } catch (IOException ex) {
