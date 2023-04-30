@@ -1,6 +1,7 @@
 package Controller;
 
 import Model.Product;
+import Model.User;
 
 import java.io.*;
 import java.net.ServerSocket;
@@ -29,17 +30,26 @@ public class Server {
         System.out.println("Server started on port 8080");
 
         while (true) {
+            //Accept a clients connection.
             clientSocket = serverSocket.accept();
+            //Create output stream to send objects to the client.
             oos = new ObjectOutputStream(clientSocket.getOutputStream());
             System.out.println("Client connected: " + clientSocket.getInetAddress());
             new Thread(() -> {
                 try {
+                    //Create a input stream to read objects sent from the client.
                     ObjectInputStream ois = new ObjectInputStream(clientSocket.getInputStream());
                     while(true){
+                        //Read the object.
                         Object object = ois.readObject();
+                        //Check the type of the object.
                         if(object instanceof Product){
+                            //Add product to database here.
                             Product p = (Product) object;
                             handleMessageFromClient(p);
+                        }
+                        else if(object instanceof User){
+                            //Log in or register user here.
                         }
                     }
                 } catch (IOException e) {

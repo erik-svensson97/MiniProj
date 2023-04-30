@@ -45,6 +45,7 @@ public class Client {
      */
     public void connectToServer() throws IOException {
         socket = new Socket("localhost", 8080);
+        //Outputstream to send objects to the server.
         oos = new ObjectOutputStream(socket.getOutputStream());
     }
 
@@ -54,6 +55,8 @@ public class Client {
      * @param price The price of the product to send.
      * @throws IOException
      */
+    //TODO: Create function to send different objects to the server for example, sendProductToServer and sendUserToServer.
+    //TODO: Replace the function below as it is only an example for now.
     public void sendMessageToServer(String type, double price) throws IOException {
         Product product = new Product(type, price);
         oos.writeObject(product);
@@ -66,9 +69,12 @@ public class Client {
     public void readMessagesFromServer() {
         new Thread(() -> {
             try {
+                //Input stream to read objects sent from the server.
                 ObjectInputStream ois = new ObjectInputStream(socket.getInputStream());
                 while (true) {
+                    //Read the object.
                     Object object = ois.readObject();
+                    //Check the type of the object.
                     if(object instanceof String){
                         String s = (String) object;
                         handleMessagesFromServer(s);
