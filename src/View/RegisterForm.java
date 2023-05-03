@@ -8,6 +8,9 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
 
+/**
+ * This class creates the register frame of the application.
+ */
 public class RegisterForm implements ActionListener {
 
     private JPanel registerPanel;

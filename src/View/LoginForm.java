@@ -10,7 +10,6 @@ import java.io.IOException;
 
 /**
  * This class is the LoginForm where users can sign in or register.
- * @Author Mahmoud Daabas
  */
 public class LoginForm implements ActionListener{
 

@@ -7,7 +7,6 @@ import javax.swing.*;
 
 /**
  * This class is the main JFrame of the application.
- * @Author Mahmoud Daabas
  */
 public class MainForm {
 

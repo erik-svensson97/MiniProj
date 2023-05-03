@@ -4,7 +4,6 @@ import java.io.Serializable;
 
 /**
  * This class represents a product.
- * @Author Mahmoud Daabas
  */
 public class Product implements Serializable {
 

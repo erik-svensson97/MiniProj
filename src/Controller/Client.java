@@ -10,7 +10,6 @@ import java.net.Socket;
 /**
  * This is the class for the client.
  * It will connect to the server and start the GUI for the user.
- * @Author Mahmoud Daabas
  */
 public class Client {
     /**

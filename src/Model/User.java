@@ -5,7 +5,6 @@ import java.io.Serializable;
 
 /**
  * This class represents a user.
- * @Author Mahmoud Daabas
  */
 public class User implements Serializable {
     /**

@@ -9,7 +9,6 @@ import java.net.Socket;
 
 /**
  * This is the server class.
- * @Author Mahmoud Daabas
  */
 public class Server {
 
