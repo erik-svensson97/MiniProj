@@ -78,7 +78,7 @@ public class Client {
      * @throws IOException
      */
     public void sendUserToServerLogin(String username, String password) throws IOException {
-        User user = new User(username, password);
+        User user = new User(username, password, true);
         oos.writeObject(user);
         oos.flush();
     }
@@ -122,6 +122,19 @@ public class Client {
             //Add code here to do different things based on message.
             //An example would be switching the view.
         }
+    }
+
+    /**
+     * Returns the MainForm of the application.
+     * @return mainForm
+     */
+    public MainForm getMainForm(){
+        return this.mainForm;
+    }
+
+    public static void main(String[] args) {
+        //Startar main fönstret.
+        new Client();
     }
 
 }

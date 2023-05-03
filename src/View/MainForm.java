@@ -16,30 +16,49 @@ public class MainForm {
      */
     private JFrame mainFrame;
     private Client c;
+    private LoginForm login;
+    private RegisterForm register;
 
     /**
      * Constructor
      */
     public MainForm(Client c){
-        //Assign variables.
+        //Assign client variable.
         this.c = c;
-        mainFrame = new JFrame("Marketplace Application");
+
         setLookAndFeel();
-        setLoginPanel();
+        mainFrame = new JFrame("Marketplace Application");
         mainFrame.setDefaultCloseOperation (JFrame.EXIT_ON_CLOSE);
-        mainFrame.setVisible(true);
         mainFrame.setSize(950, 600);
         mainFrame.setLocationRelativeTo(null);
         mainFrame.setResizable(false);
+
+        //Create the applications forms and pass the client object to them.
+        login = new LoginForm(c);
+        register = new RegisterForm(c);
+
+
+        //Set the login panel.
+        setLoginPanel();
+
+        //Make the main frame visible.
+        mainFrame.setVisible(true);
     }
 
     /**
-     * Sets the login panel when the application starts.
+     * Sets the login panel when the application starts for the first time or when it's called.
      */
     public void setLoginPanel(){
-        //Create an object of the LoginForm and send the previously created controller to it.
-        LoginForm lf = new LoginForm(c);
-        mainFrame.getContentPane().add(lf.getLoginPanel());
+        mainFrame.setContentPane(login.getLoginPanel());
+        mainFrame.getContentPane().revalidate();
+    }
+
+    /**
+     * Sets the register panel when called.
+     */
+    public void setRegisterPanel(){
+        mainFrame.setContentPane(register.getRegisterPanel());
+        mainFrame.getContentPane().revalidate();
     }
 
     /**

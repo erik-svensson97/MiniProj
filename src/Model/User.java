@@ -15,7 +15,7 @@ public class User implements Serializable {
     private String password;
     private String dateOfBirth;
     private String email;
-    private boolean registered;
+    private boolean isRegistered;
 
     /**
      * First constructor for registering a user.
@@ -25,12 +25,12 @@ public class User implements Serializable {
      * @param email
      */
 
-    public User(String username, String password, String dateOfBirth, String email, boolean registered){
+    public User(String username, String password, String dateOfBirth, String email, boolean isRegistered){
         this.username = username;
         this.password = password;
         this.dateOfBirth = dateOfBirth;
         this.email = email;
-        this.registered = registered;
+        this.isRegistered = isRegistered;
     }
 
     /**
@@ -38,9 +38,10 @@ public class User implements Serializable {
      * @param username
      * @param password
      */
-    public User(String username, String password){
+    public User(String username, String password, boolean isRegistered){
         this.username = username;
         this.password = password;
+        this.isRegistered = isRegistered;
     }
 
     /**
@@ -80,6 +81,6 @@ public class User implements Serializable {
      * @return register.
      */
     public boolean isRegistered(){
-        return this.registered;
+        return this.isRegistered;
     }
 }

@@ -32,6 +32,7 @@ public class LoginForm implements ActionListener{
     public LoginForm(Client c) {
         //Assign the client variable to the local one.
         this.c = c;
+
         //construct components
         signInButton = new JButton("Sign in");
         passwordTextField = new JTextField (5);
@@ -54,12 +55,12 @@ public class LoginForm implements ActionListener{
         panel.add (registerButton);
 
         //set component bounds (only needed by Absolute Positioning)
-        signInButton.setBounds (410, 305, 120, 25);
+        signInButton.setBounds (410, 325, 120, 25);
         passwordTextField.setBounds (385, 270, 165, 25);
         usernameTextField.setBounds (385, 210, 165, 25);
         userNameLabel.setBounds (385, 180, 100, 25);
         passwordLabel.setBounds (385, 240, 100, 25);
-        registerButton.setBounds (410, 345, 120, 25);
+        registerButton.setBounds (410, 370, 120, 25);
 
         //Add listeners for the buttons.
         addListeners();
@@ -97,7 +98,7 @@ public class LoginForm implements ActionListener{
                     c.sendUserToServerLogin("TestUser", "abc123");
                     break;
                 case "register":
-                    c.sendUserToServerRegister("TestUserRegister", "abc123", "2000-01-02", "testUserRegister@gmail.com", false);
+                    c.getMainForm().setRegisterPanel();
                     break;
             }
         } catch (IOException ex) {
