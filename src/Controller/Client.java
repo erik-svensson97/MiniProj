@@ -1,14 +1,11 @@
 package Controller;
 
 import Model.Product;
+import Model.User;
 import View.MainForm;
 
 import java.io.*;
 import java.net.Socket;
-import java.util.ArrayList;
-import java.util.concurrent.Executors;
-import java.util.concurrent.ScheduledExecutorService;
-import java.util.concurrent.TimeUnit;
 
 /**
  * This is the class for the client.
@@ -50,16 +47,39 @@ public class Client {
     }
 
     /**
-     * Sends a message to the server.
-     * @param price The type of the product to send.
-     * @param price The price of the product to send.
-     * @throws IOException
+     * Sends a product object to the server.
+     * @param type The type of the product.
+     * @param price The price of the product.
      */
-    //TODO: Create function to send different objects to the server for example, sendProductToServer and sendUserToServer.
-    //TODO: Replace the function below as it is only an example for now.
-    public void sendMessageToServer(String type, double price) throws IOException {
+    public void sendProductToServer(String type, double price) throws IOException {
         Product product = new Product(type, price);
         oos.writeObject(product);
+        oos.flush();
+    }
+
+    /**
+     * Sends a user object to the server for registering.
+     * @param username The username of the user.
+     * @param password The password of the user.
+     * @param dateOfBirth The date of birth of the user.
+     * @param email The email of the user.
+     * @throws IOException
+     */
+    public void sendUserToServerRegister(String username, String password, String dateOfBirth, String email, boolean registered) throws IOException {
+        User user = new User(username, password, dateOfBirth, email, registered);
+        oos.writeObject(user);
+        oos.flush();
+    }
+
+    /**
+     * Sends a user object to the server for logging in.
+     * @param username The username of the user.
+     * @param password The password of the user.
+     * @throws IOException
+     */
+    public void sendUserToServerLogin(String username, String password) throws IOException {
+        User user = new User(username, password);
+        oos.writeObject(user);
         oos.flush();
     }
 
@@ -77,7 +97,7 @@ public class Client {
                     //Check the type of the object.
                     if(object instanceof String){
                         String s = (String) object;
-                        handleMessagesFromServer(s);
+                        handleStringMessagesFromServer(s);
                     }
                 }
             } catch (IOException e) {
@@ -96,7 +116,7 @@ public class Client {
      * The function decides what to do based on the message.
      * @param message
      */
-    public void handleMessagesFromServer(String message){
+    public void handleStringMessagesFromServer(String message){
         System.out.println("Response from server: " + message);
         switch(message){
             //Add code here to do different things based on message.

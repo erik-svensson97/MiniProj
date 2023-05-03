@@ -1,10 +1,13 @@
 package Model;
 
+import java.io.Serial;
+import java.io.Serializable;
+
 /**
  * This class represents a user.
  * @Author Mahmoud Daabas
  */
-public class User {
+public class User implements Serializable {
     /**
      * Declare variables.
      */
@@ -12,6 +15,7 @@ public class User {
     private String password;
     private String dateOfBirth;
     private String email;
+    private boolean registered;
 
     /**
      * First constructor for registering a user.
@@ -21,11 +25,12 @@ public class User {
      * @param email
      */
 
-    public User(String username, String password, String dateOfBirth, String email){
+    public User(String username, String password, String dateOfBirth, String email, boolean registered){
         this.username = username;
         this.password = password;
         this.dateOfBirth = dateOfBirth;
         this.email = email;
+        this.registered = registered;
     }
 
     /**
@@ -68,5 +73,13 @@ public class User {
      */
     public String getEmail() {
         return email;
+    }
+
+    /**
+     * Returns the register boolean.
+     * @return register.
+     */
+    public boolean isRegistered(){
+        return this.registered;
     }
 }

@@ -94,10 +94,10 @@ public class LoginForm implements ActionListener{
         try{
             switch(action){
                 case "signIn":
-                    c.sendMessageToServer("Macbook Pro", 5000);
+                    c.sendUserToServerLogin("TestUser", "abc123");
                     break;
                 case "register":
-                    c.sendMessageToServer("IPhone 11", 2500);
+                    c.sendUserToServerRegister("TestUserRegister", "abc123", "2000-01-02", "testUserRegister@gmail.com", false);
                     break;
             }
         } catch (IOException ex) {

@@ -6,7 +6,6 @@ import Model.User;
 import java.io.*;
 import java.net.ServerSocket;
 import java.net.Socket;
-import java.util.ArrayList;
 
 /**
  * This is the server class.
@@ -45,11 +44,21 @@ public class Server {
                         //Check the type of the object.
                         if(object instanceof Product){
                             //Add product to database here.
-                            Product p = (Product) object;
-                            handleMessageFromClient(p);
+                            Product product = (Product) object;
+                            handleProductFromClient(product);
                         }
                         else if(object instanceof User){
                             //Log in or register user here.
+                            User user = (User) object;
+                            //Check if user is registered.
+                            if(user.isRegistered()){
+                                //Login user.
+                                handleUserLoginFromServer(user);
+                            }
+                            else {
+                                //Register user.
+                                handleUserRegisterFromServer(user);
+                            }
                         }
                     }
                 } catch (IOException e) {
@@ -65,14 +74,38 @@ public class Server {
      * Handles messages from the client.
      * The function decides what to do based on the message.
      */
-    public void handleMessageFromClient(Product p) throws IOException {
-        System.out.println("Received Product object from client: " + p.getType() + " " + p.getPrice());
+    public void handleProductFromClient(Product product) throws IOException {
+        System.out.println("Received Product object from client: " + product.getType() + " " + product.getPrice());
         //Do something with the product.
         sendMessageToClient("The server received the product.");
     }
 
     /**
-     * This function sends a message to the client from the server.
+     * Handles the user registration.
+     * @param user The user object that was sent from the client.
+     */
+    public void handleUserRegisterFromServer(User user) throws IOException {
+        System.out.println(user.getUsername());
+        System.out.println(user.getPassword());
+        System.out.println(user.getEmail());
+        System.out.println(user.getDateOfBirth());
+        System.out.println("Registering the user with the data above.");
+        sendMessageToClient("The user has been registerd.");
+    }
+
+    /**
+     * Handles the user login.
+     * @param user The user object that was sent from the client.
+     */
+    public void handleUserLoginFromServer(User user) throws IOException {
+        System.out.println(user.getUsername());
+        System.out.println(user.getPassword());
+        System.out.println("Signing in the user with the data above.");
+        sendMessageToClient("The user has been signed in.");
+    }
+
+    /**
+     * This function sends a String message to the client from the server.
      * @param message
      * @throws IOException
      */
