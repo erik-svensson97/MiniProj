@@ -55,11 +55,11 @@ public class Server {
                             //Check if user is registered.
                             if(user.isRegistered()){
                                 //Login user.
-                                handleUserLoginFromServer(user);
+                                handleUserLoginFromClient(user);
                             }
                             else {
                                 //Register user.
-                                handleUserRegisterFromServer(user);
+                                handleUserRegisterFromClient(user);
                             }
                         }
                     }
@@ -86,7 +86,7 @@ public class Server {
      * Handles the user registration.
      * @param user The user object that was sent from the client.
      */
-    public void handleUserRegisterFromServer(User user) throws IOException {
+    public void handleUserRegisterFromClient(User user) throws IOException {
         sendStringMessageToClient("The user has been registered.");
         userProcedures.createUser(user.getUsername(), user.getPassword(), user.getDateOfBirth(), user.getEmail());
     }
@@ -95,7 +95,7 @@ public class Server {
      * Handles the user login.
      * @param user The user object that was sent from the client.
      */
-    public void handleUserLoginFromServer(User user) throws IOException {
+    public void handleUserLoginFromClient(User user) throws IOException {
         int userId = userProcedures.signInUser(user.getUsername(), user.getPassword());
         //If higher than 0, login was successfull.
         if(userId > 0){
