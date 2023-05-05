@@ -1,5 +1,6 @@
 package Controller;
 
+import DataAccessLayer.DatabaseConnection;
 import Model.Product;
 import Model.User;
 
