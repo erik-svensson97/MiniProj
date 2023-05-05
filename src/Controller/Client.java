@@ -135,5 +135,8 @@ public class Client {
         //Startar main fönstret.
         new Client();
     }
+    public User getCurrentUser(){
+        return new User("todo", "later", true); //I guess we need an instance variable for this?
+    }
 
 }

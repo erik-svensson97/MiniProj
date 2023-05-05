@@ -35,7 +35,7 @@ public class Server {
             System.out.println("Client connected: " + clientSocket.getInetAddress());
             new Thread(() -> {
                 try {
-                    //Create a input stream to read objects sent from the client.
+                    //Create an input stream to read objects sent from the client.
                     ObjectInputStream ois = new ObjectInputStream(clientSocket.getInputStream());
                     while(true){
                         //Read the object.
