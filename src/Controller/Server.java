@@ -74,7 +74,7 @@ public class Server {
      * The function decides what to do based on the message.
      */
     public void handleProductFromClient(Product product) throws IOException {
-        System.out.println("Received Product object from client: " + product.getType() + " " + product.getPrice());
+        System.out.println("Received Product object from client: " + /*product.getType()*/  " " + product.getPrice());
         //Do something with the product.
         sendMessageToClient("The server received the product.");
     }
