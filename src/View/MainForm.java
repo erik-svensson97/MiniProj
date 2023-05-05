@@ -17,6 +17,7 @@ public class MainForm {
     private Client c;
     private LoginForm login;
     private RegisterForm register;
+    private ProductForm product;
 
     /**
      * Constructor
@@ -35,7 +36,7 @@ public class MainForm {
         //Create the applications forms and pass the client object to them.
         login = new LoginForm(c);
         register = new RegisterForm(c);
-
+        product = new ProductForm(c);
 
         //Set the login panel.
         setLoginPanel();
@@ -57,6 +58,11 @@ public class MainForm {
      */
     public void setRegisterPanel(){
         mainFrame.setContentPane(register.getRegisterPanel());
+        mainFrame.getContentPane().revalidate();
+    }
+
+    public void setProductPanel(){
+        mainFrame.setContentPane(product.getProductPanel());
         mainFrame.getContentPane().revalidate();
     }
 

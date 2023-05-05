@@ -95,6 +95,7 @@ public class LoginForm implements ActionListener{
             switch(action){
                 case "signIn":
                     c.sendUserToServerLogin("TestUser", "abc123");
+                    c.getMainForm().setProductPanel();
                     break;
                 case "register":
                     c.getMainForm().setRegisterPanel();
