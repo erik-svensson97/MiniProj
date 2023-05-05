@@ -47,11 +47,9 @@ public class Client {
 
     /**
      * Sends a product object to the server.
-     * @param type The type of the product.
-     * @param price The price of the product.
      */
-    public void sendProductToServer(String type, double price) throws IOException {
-        Product product = new Product(type, price);
+    public void sendProductToServer() throws IOException {
+        Product product = new Product();
         oos.writeObject(product);
         oos.flush();
     }
