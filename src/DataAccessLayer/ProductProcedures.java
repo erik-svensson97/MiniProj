@@ -1,5 +1,5 @@
 package DataAccessLayer;
 
 public class ProductProcedures {
-    //4. Hämtar listan från databas och skickar tbx till Controller.
+    //3. Hämtar listan från databas och skickar tbx till Server som sen skickar till client.
 }
