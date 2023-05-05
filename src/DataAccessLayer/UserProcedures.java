@@ -17,7 +17,6 @@ public class UserProcedures {
      */
     public boolean createUser(String username, String password, String dateOfBirth, String email){
         DatabaseConnection dc = new DatabaseConnection();
-        System.out.println(dateOfBirth);
        try( CallableStatement statement = dc.getConnection().prepareCall("{ ? = call create_user(?, ?, ?, ?) }")) {
             statement.registerOutParameter(1, Types.BOOLEAN);
             statement.setString(2, username);

@@ -16,7 +16,7 @@ public class DatabaseConnection {
      * Construct the class and connect to the database.
      */
     public DatabaseConnection(){
-        String url = "jdbc:postgresql://localhost/Marketplace";
+        String url = "jdbc:postgresql://db.tdkecbgmmdghrwajxfmv.supabase.co/Marketplace";
 
         Properties props = new Properties();
         props.setProperty("user", getUsernameFromTxt());
