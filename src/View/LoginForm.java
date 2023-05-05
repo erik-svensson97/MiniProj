@@ -23,6 +23,7 @@ public class LoginForm implements ActionListener{
     private JLabel userNameLabel;
     private JLabel passwordLabel;
     private JButton registerButton;
+    private JLabel errorLabel;
     private Client c;
 
     /**
@@ -39,6 +40,7 @@ public class LoginForm implements ActionListener{
         userNameLabel = new JLabel ("Username:");
         passwordLabel = new JLabel ("Password:");
         registerButton = new JButton ("Register");
+        errorLabel = new JLabel();
 
         //adjust size and set layout
         panel = new JPanel();
@@ -52,6 +54,7 @@ public class LoginForm implements ActionListener{
         panel.add (userNameLabel);
         panel.add (passwordLabel);
         panel.add (registerButton);
+        panel.add(errorLabel);
 
         //set component bounds (only needed by Absolute Positioning)
         signInButton.setBounds (410, 325, 120, 25);
@@ -60,9 +63,16 @@ public class LoginForm implements ActionListener{
         userNameLabel.setBounds (385, 180, 100, 25);
         passwordLabel.setBounds (385, 240, 100, 25);
         registerButton.setBounds (410, 370, 120, 25);
+        errorLabel.setBounds(430, 410, 120, 25);
 
         //Add listeners for the buttons.
         addListeners();
+    }
+
+    public void failedToLogin(){
+        errorLabel.setText("Login failure!");
+        errorLabel.setForeground(Color.RED);
+        errorLabel.setVisible(true);
     }
 
     /**
@@ -94,8 +104,7 @@ public class LoginForm implements ActionListener{
         try{
             switch(action){
                 case "signIn":
-                    c.sendUserToServerLogin("TestUser", "abc123");
-                    c.getMainForm().setProductPanel();
+                    c.sendUserToServerLogin(usernameTextField.getText(), passwordTextField.getText());
                     break;
                 case "register":
                     c.getMainForm().setRegisterPanel();

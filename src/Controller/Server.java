@@ -1,6 +1,5 @@
 package Controller;
 
-import DataAccessLayer.DatabaseConnection;
 import DataAccessLayer.UserProcedures;
 import Model.Product;
 import Model.User;
@@ -80,7 +79,7 @@ public class Server {
     public void handleProductFromClient(Product product) throws IOException {
         System.out.println("Received Product object from client: " + /*product.getType()*/  " " + product.getPrice());
         //Do something with the product.
-        sendMessageToClient("The server received the product.");
+        sendStringMessageToClient("The server received the product.");
     }
 
     /**
@@ -88,7 +87,7 @@ public class Server {
      * @param user The user object that was sent from the client.
      */
     public void handleUserRegisterFromServer(User user) throws IOException {
-        sendMessageToClient("The user has been registered.");
+        sendStringMessageToClient("The user has been registered.");
         userProcedures.createUser(user.getUsername(), user.getPassword(), user.getDateOfBirth(), user.getEmail());
     }
 
@@ -97,10 +96,13 @@ public class Server {
      * @param user The user object that was sent from the client.
      */
     public void handleUserLoginFromServer(User user) throws IOException {
-        System.out.println(user.getUsername());
-        System.out.println(user.getPassword());
-        System.out.println("Signing in the user with the data above.");
-        sendMessageToClient("The user has been signed in.");
+        boolean success = userProcedures.signInUser(user.getUsername(), user.getPassword());
+        if(success){
+            sendStringMessageToClient("loginSuccess");
+        }
+        else {
+            sendStringMessageToClient("loginFailed");
+        }
     }
 
     /**
@@ -108,7 +110,7 @@ public class Server {
      * @param message
      * @throws IOException
      */
-    public void sendMessageToClient(String message) throws IOException {
+    public void sendStringMessageToClient(String message) throws IOException {
         oos.writeObject(message);
         oos.flush();
     }

@@ -67,6 +67,14 @@ public class MainForm {
     }
 
     /**
+     * Returns the login panel/form.
+     * @return login panel/form
+     */
+    public LoginForm getLoginForm(){
+        return this.login;
+    }
+
+    /**
      * Sets the look and feel for the application.
      */
     public void setLookAndFeel(){

@@ -94,6 +94,7 @@ public class Client {
                     //Check the type of the object.
                     if(object instanceof String){
                         String s = (String) object;
+                        //Pass the object to a function to handle it.
                         handleStringMessagesFromServer(s);
                     }
                 }
@@ -116,8 +117,12 @@ public class Client {
     public void handleStringMessagesFromServer(String message){
         System.out.println("Response from server: " + message);
         switch(message){
-            //Add code here to do different things based on message.
-            //An example would be switching the view.
+            case "loginSuccess":
+                mainForm.setProductPanel();
+                break;
+            case "loginFailed":
+                mainForm.getLoginForm().failedToLogin();
+                break;
         }
     }
 
