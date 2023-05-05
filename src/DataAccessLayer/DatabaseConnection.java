@@ -1,19 +1,16 @@
 package DataAccessLayer;
 
 import java.io.*;
-import java.nio.file.Path;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.util.Properties;
-import java.util.Scanner;
 
 /**
  * This class managse the database connection.
  */
 public class DatabaseConnection {
     private Connection connection;
-    private ProductProcedures productProcedures;
 
     /**
      * Construct the class and connect to the database.
@@ -97,10 +94,5 @@ public class DatabaseConnection {
      */
     public Connection getConnection(){
         return this.connection;
-    }
-
-    public static void main(String[] args) throws IOException {
-        DatabaseConnection databaseConnection = new DatabaseConnection();
-        databaseConnection.getUsernameFromTxt();
     }
 }

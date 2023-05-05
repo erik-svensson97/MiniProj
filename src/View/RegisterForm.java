@@ -21,9 +21,9 @@ public class RegisterForm implements ActionListener {
     private JLabel passwordLabel;
     private JButton registerButton;
     private JLabel emailLabel;
-    private JTextField jcomp7;
+    private JTextField emailTextField;
     private JLabel dateOfBirthLabel;
-    private JTextField jcomp9;
+    private JTextField dateOfBirthTextField;
     private JButton goBackButton;
 
     public RegisterForm(Client c) {
@@ -37,9 +37,9 @@ public class RegisterForm implements ActionListener {
         passwordLabel = new JLabel ("Password:");
         registerButton = new JButton ("Register");
         emailLabel = new JLabel ("Email:");
-        jcomp7 = new JTextField (5);
+        emailTextField = new JTextField (5);
         dateOfBirthLabel = new JLabel ("Date of Birth:");
-        jcomp9 = new JTextField (5);
+        dateOfBirthTextField = new JTextField (5);
         goBackButton = new JButton("Go Back");
 
         //adjust size and set layout
@@ -54,9 +54,9 @@ public class RegisterForm implements ActionListener {
         registerPanel.add (passwordLabel);
         registerPanel.add (registerButton);
         registerPanel.add (emailLabel);
-        registerPanel.add (jcomp7);
+        registerPanel.add (emailTextField);
         registerPanel.add (dateOfBirthLabel);
-        registerPanel.add (jcomp9);
+        registerPanel.add (dateOfBirthTextField);
         registerPanel.add (goBackButton);
 
         //set component bounds (only needed by Absolute Positioning)
@@ -66,9 +66,9 @@ public class RegisterForm implements ActionListener {
         passwordLabel.setBounds (385, 175, 100, 25);
         registerButton.setBounds (410, 380, 120, 25);
         emailLabel.setBounds (385, 235, 100, 25);
-        jcomp7.setBounds (385, 265, 165, 25);
+        emailTextField.setBounds (385, 265, 165, 25);
         dateOfBirthLabel.setBounds (385, 295, 100, 25);
-        jcomp9.setBounds (385, 325, 165, 25);
+        dateOfBirthTextField.setBounds (385, 325, 165, 25);
         goBackButton.setBounds (410, 420, 120, 25);
 
         //Add listeners for the buttons.
@@ -100,7 +100,8 @@ public class RegisterForm implements ActionListener {
             switch(action){
                 case "register":
                     //Register user to database and switch view to login again.
-                    c.sendUserToServerRegister("TestUserRegister", "abc123", "2000-01-02", "testUserRegister@gmail.com", false);
+                    c.sendUserToServerRegister(usernameTextField.getText(), passwordTextField.getText(), dateOfBirthTextField.getText(), emailTextField.getText(), false);
+                    c.getMainForm().setLoginPanel();
                     break;
                 case "goBack":
                     //Go back to the login panel.

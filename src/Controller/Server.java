@@ -1,6 +1,7 @@
 package Controller;
 
 import DataAccessLayer.DatabaseConnection;
+import DataAccessLayer.UserProcedures;
 import Model.Product;
 import Model.User;
 
@@ -19,6 +20,7 @@ public class Server {
     private ServerSocket serverSocket;
     private Socket clientSocket;
     private ObjectOutputStream oos;
+    private UserProcedures userProcedures;
 
     /**
      * This function starts the server when it's called.
@@ -27,6 +29,7 @@ public class Server {
     public void startServer() throws IOException {
         serverSocket = new ServerSocket(8080);
         System.out.println("Server started on port 8080");
+        userProcedures = new UserProcedures();
 
         while (true) {
             //Accept a clients connection.
@@ -85,12 +88,8 @@ public class Server {
      * @param user The user object that was sent from the client.
      */
     public void handleUserRegisterFromServer(User user) throws IOException {
-        System.out.println(user.getUsername());
-        System.out.println(user.getPassword());
-        System.out.println(user.getEmail());
-        System.out.println(user.getDateOfBirth());
-        System.out.println("Registering the user with the data above.");
-        sendMessageToClient("The user has been registerd.");
+        sendMessageToClient("The user has been registered.");
+        userProcedures.createUser(user.getUsername(), user.getPassword(), user.getDateOfBirth(), user.getEmail());
     }
 
     /**
