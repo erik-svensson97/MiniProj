@@ -37,15 +37,15 @@ public class UserProcedures {
      * @param password The users password.
      * @return result depending on success
      */
-    public boolean signInUser(String username, String password) {
+    public int signInUser(String username, String password) {
         DatabaseConnection dc = new DatabaseConnection();
         try( CallableStatement statement = dc.getConnection().prepareCall("{ ? = call sign_in(?, ?) }")) {
-            statement.registerOutParameter(1, Types.BOOLEAN);
+            statement.registerOutParameter(1, Types.INTEGER);
             statement.setString(2, username);
             statement.setString(3, password);
             statement.execute();
-            boolean result = statement.getBoolean(1);
-            return result;
+            int userId = statement.getInt(1);
+            return userId;
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }

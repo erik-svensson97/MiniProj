@@ -96,9 +96,12 @@ public class Server {
      * @param user The user object that was sent from the client.
      */
     public void handleUserLoginFromServer(User user) throws IOException {
-        boolean success = userProcedures.signInUser(user.getUsername(), user.getPassword());
-        if(success){
+        int userId = userProcedures.signInUser(user.getUsername(), user.getPassword());
+        //If higher than 0, login was successfull.
+        if(userId > 0){
             sendStringMessageToClient("loginSuccess");
+            //Send the user id that was returned from the database to the client.
+            sendUserIdToClient(userId);
         }
         else {
             sendStringMessageToClient("loginFailed");
@@ -112,6 +115,16 @@ public class Server {
      */
     public void sendStringMessageToClient(String message) throws IOException {
         oos.writeObject(message);
+        oos.flush();
+    }
+
+    /**
+     * Sends the userid that was returned from the database after signing in to the client.
+     * @param userId The users id.
+     * @throws IOException
+     */
+    public void sendUserIdToClient(int userId) throws IOException {
+        oos.writeObject(userId);
         oos.flush();
     }
 

@@ -18,6 +18,8 @@ public class Client {
     private Socket socket;
     private MainForm mainForm;
     private ObjectOutputStream oos;
+    //user id is set on login
+    private int userId;
 
     /**
      * Constructor
@@ -97,6 +99,12 @@ public class Client {
                         //Pass the object to a function to handle it.
                         handleStringMessagesFromServer(s);
                     }
+                    //The userID sent from the server is Integer.
+                    if(object instanceof Integer){
+                        int i = (int) object;
+                        //Pass the userId to the function to handle it.
+                        handleUserIdFromServer(i);
+                    }
                 }
             } catch (IOException e) {
                 e.printStackTrace();
@@ -124,6 +132,15 @@ public class Client {
                 mainForm.getLoginForm().failedToLogin();
                 break;
         }
+    }
+
+    /**
+     * Handles the userId that was sent from the server after the user logged in.
+     * @param userId The users id.
+     */
+    public void handleUserIdFromServer(int userId){
+        this.userId = userId;
+        System.out.println("The user ID "+userId+" was successfully recieved from the server and set.");
     }
 
     /**
