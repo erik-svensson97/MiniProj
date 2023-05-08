@@ -1,9 +1,11 @@
 package Controller;
 
+import DataAccessLayer.ProductProcedures;
 import DataAccessLayer.UserProcedures;
 import Model.Product;
 import Model.User;
 
+import javax.swing.table.DefaultTableModel;
 import java.io.*;
 import java.net.ServerSocket;
 import java.net.Socket;
@@ -20,6 +22,7 @@ public class Server {
     private Socket clientSocket;
     private ObjectOutputStream oos;
     private UserProcedures userProcedures;
+    private ProductProcedures productProcedures;
 
     /**
      * This function starts the server when it's called.
@@ -29,6 +32,7 @@ public class Server {
         serverSocket = new ServerSocket(8080);
         System.out.println("Server started on port 8080");
         userProcedures = new UserProcedures();
+        productProcedures = new ProductProcedures();
 
         while (true) {
             //Accept a clients connection.
@@ -102,10 +106,24 @@ public class Server {
             sendStringMessageToClient("loginSuccess");
             //Send the user id that was returned from the database to the client.
             sendUserIdToClient(userId);
+            //Get all the products from the database.
+            DefaultTableModel tableModel = productProcedures.getAllProducts();
+            //Send the DefaultTableModel holding the data to the client.
+            sendDefaultTableModelToClient(tableModel);
         }
         else {
             sendStringMessageToClient("loginFailed");
         }
+    }
+
+    /**
+     * This function sends a DefaultTableModel to the client from the server.
+     * @param tableModel The table model with the data that will be displayed in a JTable.
+     * @throws IOException
+     */
+    public void sendDefaultTableModelToClient(DefaultTableModel tableModel) throws IOException {
+        oos.writeObject(tableModel);
+        oos.flush();
     }
 
     /**

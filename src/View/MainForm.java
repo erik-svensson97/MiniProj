@@ -15,9 +15,9 @@ public class MainForm {
      */
     private JFrame mainFrame;
     private Client c;
-    private LoginForm login;
-    private RegisterForm register;
-    private ProductForm product;
+    private LoginForm loginForm;
+    private RegisterForm registerForm;
+    private ProductForm productForm;
 
     /**
      * Constructor
@@ -34,9 +34,9 @@ public class MainForm {
         mainFrame.setResizable(false);
 
         //Create the applications forms and pass the client object to them.
-        login = new LoginForm(c);
-        register = new RegisterForm(c);
-        product = new ProductForm(c);
+        loginForm = new LoginForm(c);
+        registerForm = new RegisterForm(c);
+        productForm = new ProductForm(c);
 
         //Set the login panel.
         setLoginPanel();
@@ -49,7 +49,7 @@ public class MainForm {
      * Sets the login panel when the application starts for the first time or when it's called.
      */
     public void setLoginPanel(){
-        mainFrame.setContentPane(login.getLoginPanel());
+        mainFrame.setContentPane(loginForm.getLoginPanel());
         mainFrame.getContentPane().revalidate();
     }
 
@@ -57,12 +57,12 @@ public class MainForm {
      * Sets the register panel when called.
      */
     public void setRegisterPanel(){
-        mainFrame.setContentPane(register.getRegisterPanel());
+        mainFrame.setContentPane(registerForm.getRegisterPanel());
         mainFrame.getContentPane().revalidate();
     }
 
     public void setProductPanel(){
-        mainFrame.setContentPane(product.getProductPanel());
+        mainFrame.setContentPane(productForm.getProductPanel());
         mainFrame.getContentPane().revalidate();
     }
 
@@ -71,7 +71,15 @@ public class MainForm {
      * @return login panel/form
      */
     public LoginForm getLoginForm(){
-        return this.login;
+        return this.loginForm;
+    }
+
+    /**
+     * Returns the product panel/form.
+     * @return product panel/forum
+     */
+    public ProductForm getProductForm(){
+        return this.productForm;
     }
 
     /**

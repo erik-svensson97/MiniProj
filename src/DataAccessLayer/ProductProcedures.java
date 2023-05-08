@@ -3,11 +3,44 @@ package DataAccessLayer;
 import Model.Product;
 import Model.User;
 
-import java.sql.Date;
+import javax.swing.table.DefaultTableModel;
+import java.sql.*;
 import java.util.List;
 
 public class ProductProcedures {
-    //3. Hämtar listan från databas och skickar tbx till Server som sen skickar till client.
+
+    public static void main(String[] args) {
+        ProductProcedures pc = new ProductProcedures();
+        pc.getAllProducts();
+    }
+
+    public DefaultTableModel getAllProducts() {
+        DatabaseConnection dc = new DatabaseConnection();
+        try (CallableStatement statement = dc.getConnection().prepareCall("{ call get_all_products() }")) {
+            //Create the table model
+            DefaultTableModel tableModel = new DefaultTableModel();
+            String[] columnNames = {"ProductID", "SellerID", "Type", "Price", "Production Year", "Color", "Condition"};
+            //Add the column names to the table model
+            for (int i = 0; i < columnNames.length; i++) {
+                tableModel.addColumn(columnNames[i]);
+            }
+            int counter = 0;
+
+            statement.executeQuery();
+            ResultSet res = statement.getResultSet();
+            while (res.next()) {
+                //Add the data to the table model
+                tableModel.insertRow(counter, new Object[]{res.getString(1), res.getString(2), res.getString(3),
+                res.getString(4), res.getString(5), res.getString(6), res.getString(7)});
+                counter++;
+            }
+            //Return the table model with the data
+            return tableModel;
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
 
     public boolean purchaseProd(int product_id, String product_name, int buyer_id){ //Buyer ska hämta om sina purchased products
         // tar bort bort product från listan

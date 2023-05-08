@@ -4,6 +4,7 @@ import Model.Product;
 import Model.User;
 import View.MainForm;
 
+import javax.swing.table.DefaultTableModel;
 import java.io.*;
 import java.net.Socket;
 
@@ -105,6 +106,11 @@ public class Client {
                         //Pass the userId to the function to handle it.
                         handleUserIdFromServer(i);
                     }
+                    //DefaultTableModel holds data from the database that will be added to a JTable.
+                    if(object instanceof DefaultTableModel){
+                        DefaultTableModel tableModel = (DefaultTableModel) object;
+                        handleDefaultTableModelFromServer(tableModel);
+                    }
                 }
             } catch (IOException e) {
                 e.printStackTrace();
@@ -114,6 +120,14 @@ public class Client {
                 e.printStackTrace();
             }
         }).start();
+    }
+
+    /**
+     * Handles the DefaultTableModel sent from the server.
+     * @param tableModel Table model that holds data from the database.
+     */
+    public void handleDefaultTableModelFromServer(DefaultTableModel tableModel) {
+        mainForm.getProductForm().createTableModel(tableModel);
     }
 
 
@@ -140,7 +154,7 @@ public class Client {
      */
     public void handleUserIdFromServer(int userId){
         this.userId = userId;
-        System.out.println("The user ID "+userId+" was successfully recieved from the server and set.");
+        System.out.println("The user ID "+userId+" was successfully received from the server and set.");
     }
 
     /**
