@@ -14,6 +14,10 @@ public class ProductProcedures {
         pc.getAllProducts();
     }
 
+    /**
+     * Get all the products that are available for sale from the database.
+     * @return Products for sale
+     */
     public DefaultTableModel getAllProducts() {
         DatabaseConnection dc = new DatabaseConnection();
         try (CallableStatement statement = dc.getConnection().prepareCall("{ call get_all_products() }")) {
@@ -41,6 +45,28 @@ public class ProductProcedures {
         }
     }
 
+    /**
+     *
+     * Adds a product for sale.
+     * @param product The product to add for sale.
+     */
+    public int registerProdForSale(Product product){
+        DatabaseConnection dc = new DatabaseConnection();
+        try( CallableStatement statement = dc.getConnection().prepareCall("{ ? = call add_product(?, ?, ?, ?, ?, ?) }")) {
+            statement.registerOutParameter(1, Types.INTEGER);
+            statement.setInt(2, product.getUser_id());
+            statement.setString(3, product.getTitle());
+            statement.setInt(4, (int) product.getPrice());
+            statement.setDate(5, Date.valueOf(product.getYear_of_production()));
+            statement.setString(6, product.getColor());
+            statement.setString(7, product.getCondition());
+            statement.execute();
+            int result = statement.getInt(1);
+            return result;
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
 
     public boolean purchaseProd(int product_id, String product_name, int buyer_id){ //Buyer ska hämta om sina purchased products
         // tar bort bort product från listan

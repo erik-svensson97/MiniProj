@@ -81,9 +81,10 @@ public class Server {
      * The function decides what to do based on the message.
      */
     public void handleProductFromClient(Product product) throws IOException {
-        System.out.println("Received Product object from client: " + /*product.getType()*/  " " + product.getPrice());
-        //Do something with the product.
-        sendStringMessageToClient("The server received the product.");
+        System.out.println("Received Product object from client: " + product.getUser_id() + " " + product.getTitle() + product.getPrice());
+        productProcedures.registerProdForSale(product);
+        //Get all the products from the database to update the GUI.
+        getAllProductsFromDatabase();
     }
 
     /**
@@ -106,14 +107,22 @@ public class Server {
             sendStringMessageToClient("loginSuccess");
             //Send the user id that was returned from the database to the client.
             sendUserIdToClient(userId);
-            //Get all the products from the database.
-            DefaultTableModel tableModel = productProcedures.getAllProducts();
-            //Send the DefaultTableModel holding the data to the client.
-            sendDefaultTableModelToClient(tableModel);
+            //Get all the products from the database and send to the client to show on the GUI.
+            getAllProductsFromDatabase();
         }
         else {
             sendStringMessageToClient("loginFailed");
         }
+    }
+
+    /**
+     * This function gets all the products from the database.
+     * @throws IOException
+     */
+    public void getAllProductsFromDatabase() throws IOException {
+        DefaultTableModel tableModel = productProcedures.getAllProducts();
+        //Send the DefaultTableModel holding the data to the client.
+        sendDefaultTableModelToClient(tableModel);
     }
 
     /**

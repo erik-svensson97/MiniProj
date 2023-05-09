@@ -51,8 +51,8 @@ public class Client {
     /**
      * Sends a product object to the server.
      */
-    public void sendProductToServer() throws IOException {
-        Product product = new Product();
+    public void sendProductToServer(String type, int price, String productionYear, String color, String condition) throws IOException {
+        Product product = new Product(userId, type, price, productionYear, color, condition);
         oos.writeObject(product);
         oos.flush();
     }
