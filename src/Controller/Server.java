@@ -81,7 +81,6 @@ public class Server {
      * The function decides what to do based on the message.
      */
     public void handleProductFromClient(Product product) throws IOException {
-        System.out.println("Received Product object from client: " + product.getUser_id() + " " + product.getTitle() + product.getPrice());
         productProcedures.registerProdForSale(product);
         //Get all the products from the database to update the GUI.
         getAllProductsFromDatabase();
