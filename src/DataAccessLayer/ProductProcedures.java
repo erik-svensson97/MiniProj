@@ -5,6 +5,9 @@ import Model.User;
 
 import javax.swing.table.DefaultTableModel;
 import java.sql.*;
+import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
 public class ProductProcedures {
@@ -67,12 +70,31 @@ public class ProductProcedures {
             throw new RuntimeException(e);
         }
     }
-    public boolean purchaseProd(int product_id, String product_name, int buyer_id){ //Buyer ska hämta om sina purchased products
 
-        // tar bort bort product från listan
-        //Lägger till i order_history på köparens id, skriver produktens namn i product_name &
-        // dagens datum i date_of_transaction
-        return false;
+    /**
+     * Tries to purchase a product when the sale is accepted from the seller
+     * @param product_id A unique ID of the product
+     * @param product_name A name of the product
+     * @param buyer_id The buyers unique ID
+     * @return True if no exceptions occurs, else false
+     */
+    public boolean purchaseProd(int product_id, String product_name, int buyer_id){
+        DatabaseConnection dc = new DatabaseConnection();
+        try {
+            CallableStatement statement = dc.getConnection().prepareCall("{CALL purchase_prod   (?, ?, ?)}");
+
+            //Remove the product from the product table
+            statement.setInt(1, product_id);
+            statement.setString(2, product_name);
+            statement.setInt(3, buyer_id);
+
+            statement.execute();
+
+            return true;    //If all goes well, return true
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;   // Return false if any exception occurs
+        }
     }
 
     public boolean buyReq(int user_id, int product_id){ // Måste uppdatera ägaren av produkten att en req finns
@@ -98,10 +120,31 @@ public class ProductProcedures {
         return false;
     }
 
+    /**
+     * Fetches any product that a buyer wishes to buy.
+     * @param user_id The sellers unique ID
+     * @return A list of the products currently pending, seller will then need to accept or decline the sale.
+     */
     public List<Object> getBuyReqs(int user_id){
-        //The user gets all of the ids of its products
-        //and checks if there are any requests on the product_id
-        return null; // returns a list of username of user & product_id from product
+        List<Object> list = new ArrayList<>();
+        DatabaseConnection databaseConnection = new DatabaseConnection();
+        try {
+            CallableStatement statement = databaseConnection.getConnection().prepareCall("{CALL getBuyReqs(?)}");
+
+            statement.setInt(1, user_id);
+            statement.execute();
+            ResultSet results = statement.getResultSet();
+
+            while (results.next()){
+                int productID = results.getInt("product_id");
+                list.add(productID);
+                //System.out.println(results);
+            }
+
+        }catch (SQLException e){
+            e.printStackTrace();
+        }
+        return list; // returns product_id from table requests
     }
 
     public boolean registerNewProd(Product product){ //Skicka ut till alla online users att products är uppdaterad
