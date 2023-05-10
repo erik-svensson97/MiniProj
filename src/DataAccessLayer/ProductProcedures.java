@@ -67,8 +67,8 @@ public class ProductProcedures {
             throw new RuntimeException(e);
         }
     }
-
     public boolean purchaseProd(int product_id, String product_name, int buyer_id){ //Buyer ska hämta om sina purchased products
+
         // tar bort bort product från listan
         //Lägger till i order_history på köparens id, skriver produktens namn i product_name &
         // dagens datum i date_of_transaction
@@ -76,7 +76,17 @@ public class ProductProcedures {
     }
 
     public boolean buyReq(int user_id, int product_id){ // Måste uppdatera ägaren av produkten att en req finns
-        //En rad skapas i request med user_id och product_id
+        DatabaseConnection dc = new DatabaseConnection();
+        try (CallableStatement statement = dc.getConnection().prepareCall("{ ? = call buyreq(?,?) }")) {
+            statement.registerOutParameter(1, Types.BOOLEAN);
+            statement.setInt(2, user_id);
+            statement.setInt(3, product_id);
+            statement.execute();
+            boolean result = statement.getBoolean(1);
+            return result;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
         return false;
     }
 

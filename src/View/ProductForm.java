@@ -14,6 +14,7 @@ public class ProductForm implements ActionListener {
     private JPanel productPanel;
     private JButton addProductButton;
     private JButton placeHolderButton;
+    private JButton purchaseButton;
     private JTable table;
     private Client c;
     private JScrollPane scrollPane;
@@ -25,7 +26,8 @@ public class ProductForm implements ActionListener {
 
         //construct components
         addProductButton = new JButton("Add Product");
-        placeHolderButton = new JButton ("Placeholder");
+        purchaseButton = new JButton("Buy Product");
+        placeHolderButton = new JButton ("My Inventory");
 
 
         //adjust size and set layout
@@ -35,11 +37,14 @@ public class ProductForm implements ActionListener {
 
         //add components
         productPanel.add (addProductButton);
+        productPanel.add (purchaseButton);
         productPanel.add (placeHolderButton);
 
         //set component bounds (only needed by Absolute Positioning)
-        addProductButton.setBounds (185, 450, 120, 25);
-        placeHolderButton.setBounds (590, 450, 120, 25);
+        addProductButton.setBounds (100, 450, 120, 25);
+        purchaseButton.setBounds (250, 450, 120,25);
+        placeHolderButton.setBounds (700, 450, 120, 25);
+
 
         //Add listeners to buttons
         addListeners();
@@ -75,6 +80,9 @@ public class ProductForm implements ActionListener {
     public void addListeners(){
         addProductButton.addActionListener(this);
         addProductButton.setActionCommand("addProduct");
+
+        purchaseButton.addActionListener(this);
+        purchaseButton.setActionCommand("buyProduct");
     }
 
     /**
@@ -93,6 +101,27 @@ public class ProductForm implements ActionListener {
         }
     }
 
+    public boolean buyProduct(){
+        String productId = "";
+        try {
+            if(!table.getSelectionModel().isSelectionEmpty()) {
+                productId = (String) tableModel.getValueAt(table.getSelectedRow(), 0);
+                int input = JOptionPane.showOptionDialog(null, "Do you want to buy productId: " +
+                                productId, "Purchase confirmation", JOptionPane.OK_CANCEL_OPTION, JOptionPane.INFORMATION_MESSAGE,
+                        null, null, null);
+            } else{
+                JOptionPane.showMessageDialog(null, "Pick an item you want to purchase" +
+                        "then proceed to press the purchase button");
+                return false;
+            }
+
+            c.sendRequesttoServer(Integer.parseInt(productId));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return true;
+    }
+
     /**
      * Returns the product panel.
      * @return productPanel
@@ -107,6 +136,9 @@ public class ProductForm implements ActionListener {
         switch(action){
             case "addProduct":
                 addProduct();
+                break;
+            case "buyProduct":
+                buyProduct();
                 break;
         }
 

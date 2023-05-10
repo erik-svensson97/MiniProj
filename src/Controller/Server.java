@@ -3,6 +3,7 @@ package Controller;
 import DataAccessLayer.ProductProcedures;
 import DataAccessLayer.UserProcedures;
 import Model.Product;
+import Model.Request;
 import Model.User;
 
 import javax.swing.table.DefaultTableModel;
@@ -66,6 +67,11 @@ public class Server {
                                 handleUserRegisterFromClient(user);
                             }
                         }
+
+                        else if (object instanceof Request){
+                            Request request = (Request) object;
+                            handleBuyReqFromClient(request);
+                        }
                     }
                 } catch (IOException e) {
                     e.printStackTrace();
@@ -74,6 +80,14 @@ public class Server {
                 }
             }).start();
         }
+    }
+
+    /**
+     * Handles buy requests from the client
+     * @param request
+     */
+    private boolean handleBuyReqFromClient(Request request) {
+        return productProcedures.buyReq(request.getBuyer_id(), request.getProduct_id());
     }
 
     /**

@@ -16,6 +16,7 @@ public class ChatWindow extends JFrame {
     private JButton sendButton;
     private Client userClient;
     private Messager messager;
+
     public ChatWindow(Client client, Messager messager){
         super ("Chat");
         this.userClient = client;

@@ -1,6 +1,7 @@
 package Controller;
 
 import Model.Product;
+import Model.Request;
 import Model.User;
 import View.MainForm;
 
@@ -80,6 +81,12 @@ public class Client {
     public void sendUserToServerLogin(String username, String password) throws IOException {
         User user = new User(username, password, true);
         oos.writeObject(user);
+        oos.flush();
+    }
+
+    public void sendRequesttoServer( int productId) throws IOException {
+        Request request = new Request(this.userId, productId);
+        oos.writeObject(request);
         oos.flush();
     }
 
@@ -172,5 +179,4 @@ public class Client {
     public User getCurrentUser(){
         return new User("todo", "later", true); //I guess we need an instance variable for this?
     }
-
 }
