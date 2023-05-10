@@ -5,6 +5,7 @@ import Model.User;
 
 import javax.swing.table.DefaultTableModel;
 import java.sql.*;
+import java.time.LocalDate;
 import java.util.List;
 
 public class ProductProcedures {
@@ -68,11 +69,23 @@ public class ProductProcedures {
         }
     }
 
-    public boolean purchaseProd(int product_id, String product_name, int buyer_id){ //Buyer ska hämta om sina purchased products
-        // tar bort bort product från listan
-        //Lägger till i order_history på köparens id, skriver produktens namn i product_name &
-        // dagens datum i date_of_transaction
-        return false;
+    public boolean purchaseProd(int product_id, String product_name, int buyer_id){
+        DatabaseConnection dc = new DatabaseConnection();
+        try {
+            CallableStatement statement = dc.getConnection().prepareCall("{CALL purchase_prod   (?, ?, ?)}");
+
+            //Remove the product from the product table
+            statement.setInt(1, product_id);
+            statement.setString(2, product_name);
+            statement.setInt(3, buyer_id);
+
+            statement.execute();
+
+            return true;    //If all goes well, return true
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;   // Return false if any exception occurs
+        }
     }
 
     public boolean buyReq(int user_id, int product_id){ // Måste uppdatera ägaren av produkten att en req finns
