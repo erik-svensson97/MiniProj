@@ -10,6 +10,7 @@ import javax.swing.table.DefaultTableModel;
 import java.io.*;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.util.Hashtable;
 
 /**
  * This is the server class.
@@ -137,18 +138,18 @@ public class Server {
      * @throws IOException
      */
     public void getAllProductsFromDatabase() throws IOException {
-        DefaultTableModel tableModel = productProcedures.getAllProducts();
+        Hashtable hashtable = productProcedures.getAllProducts();
         //Send the DefaultTableModel holding the data to the client.
-        sendDefaultTableModelToClient(tableModel);
+        sendHashtableToClient(hashtable);
     }
 
     /**
-     * This function sends a DefaultTableModel to the client from the server.
-     * @param tableModel The table model with the data that will be displayed in a JTable.
+     * This function sends a hashtable to the client from the server.
+     * @param hashtable The table model with the data that will be displayed in a JTable plus its type.
      * @throws IOException
      */
-    public void sendDefaultTableModelToClient(DefaultTableModel tableModel) throws IOException {
-        oos.writeObject(tableModel);
+    public void sendHashtableToClient(Hashtable<String, DefaultTableModel> hashtable) throws IOException {
+        oos.writeObject(hashtable);
         oos.flush();
     }
 

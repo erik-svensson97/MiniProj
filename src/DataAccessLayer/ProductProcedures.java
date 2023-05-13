@@ -7,6 +7,7 @@ import javax.swing.table.DefaultTableModel;
 import java.sql.*;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Hashtable;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -21,7 +22,7 @@ public class ProductProcedures {
      * Get all the products that are available for sale from the database.
      * @return Products for sale
      */
-    public DefaultTableModel getAllProducts() {
+    public Hashtable getAllProducts() {
         DatabaseConnection dc = new DatabaseConnection();
         try (CallableStatement statement = dc.getConnection().prepareCall("{ call get_all_products() }")) {
             //Create the table model
@@ -42,7 +43,9 @@ public class ProductProcedures {
                 counter++;
             }
             //Return the table model with the data
-            return tableModel;
+            Hashtable<String, DefaultTableModel> hashtable = new Hashtable<>();
+            hashtable.put("Marketplace Products", tableModel);
+            return hashtable;
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }

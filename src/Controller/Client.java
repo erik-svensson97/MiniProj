@@ -8,6 +8,7 @@ import View.MainForm;
 import javax.swing.table.DefaultTableModel;
 import java.io.*;
 import java.net.Socket;
+import java.util.Hashtable;
 
 /**
  * This is the class for the client.
@@ -121,9 +122,9 @@ public class Client {
                         handleUserIdFromServer(i);
                     }
                     //DefaultTableModel holds data from the database that will be added to a JTable.
-                    if(object instanceof DefaultTableModel){
-                        DefaultTableModel tableModel = (DefaultTableModel) object;
-                        handleDefaultTableModelFromServer(tableModel);
+                    if(object instanceof Hashtable<?,?>){
+                        Hashtable<?,?> hashtable = (Hashtable<?, ?>) object;
+                        handleHashtableFromServer((Hashtable<String, DefaultTableModel>) hashtable);
                     }
                 }
             } catch (IOException e) {
@@ -138,10 +139,12 @@ public class Client {
 
     /**
      * Handles the DefaultTableModel sent from the server.
-     * @param tableModel Table model that holds data from the database.
+     * @param hashtable Table model that holds data from the database.
      */
-    public void handleDefaultTableModelFromServer(DefaultTableModel tableModel) {
-        mainForm.getProductForm().createTableModel(tableModel);
+    public void handleHashtableFromServer(Hashtable<String, DefaultTableModel> hashtable) {
+        if(hashtable.containsKey("Marketplace Products")){
+            mainForm.getProductForm().createTableModel(hashtable.get("Marketplace Products"));
+        }
     }
 
 
