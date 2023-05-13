@@ -67,10 +67,14 @@ public class Server {
                                 handleUserRegisterFromClient(user);
                             }
                         }
-
                         else if (object instanceof Request){
                             Request request = (Request) object;
                             handleBuyReqFromClient(request);
+                        }
+                        else if (object instanceof String){
+                            if (object == "marketplace") {
+                                getAllProductsFromDatabase();
+                            }
                         }
                     }
                 } catch (IOException e) {

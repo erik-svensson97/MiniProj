@@ -18,6 +18,7 @@ public class MainForm {
     private LoginForm loginForm;
     private RegisterForm registerForm;
     private ProductForm productForm;
+    private ProfileForm profileForm;
 
     /**
      * Constructor
@@ -37,6 +38,7 @@ public class MainForm {
         loginForm = new LoginForm(c);
         registerForm = new RegisterForm(c);
         productForm = new ProductForm(c);
+        profileForm = new ProfileForm(c);
 
         //Set the login panel.
         setLoginPanel();
@@ -63,6 +65,11 @@ public class MainForm {
 
     public void setProductPanel(){
         mainFrame.setContentPane(productForm.getProductPanel());
+        mainFrame.getContentPane().revalidate();
+    }
+
+    public void setProfilePanel(){
+        mainFrame.setContentPane(profileForm.getProfilePanel());
         mainFrame.getContentPane().revalidate();
     }
 

@@ -17,10 +17,10 @@ public class ChatWindow extends JFrame {
     private Client userClient;
     private Messager messager;
 
-    public ChatWindow(Client client, Messager messager){
+    public ChatWindow(Client client /* Messager messager*/){
         super ("Chat");
         this.userClient = client;
-        this.messager = messager;
+      //  this.messager = messager;
         init();
     }
     public void init(){

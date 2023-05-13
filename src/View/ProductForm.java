@@ -13,7 +13,7 @@ import java.io.IOException;
 public class ProductForm implements ActionListener {
     private JPanel productPanel;
     private JButton addProductButton;
-    private JButton placeHolderButton;
+    private JButton profileButton;
     private JButton purchaseButton;
     private JTable table;
     private Client c;
@@ -27,7 +27,7 @@ public class ProductForm implements ActionListener {
         //construct components
         addProductButton = new JButton("Add Product");
         purchaseButton = new JButton("Buy Product");
-        placeHolderButton = new JButton ("My Inventory");
+        profileButton = new JButton ("My Inventory");
 
 
         //adjust size and set layout
@@ -38,12 +38,12 @@ public class ProductForm implements ActionListener {
         //add components
         productPanel.add (addProductButton);
         productPanel.add (purchaseButton);
-        productPanel.add (placeHolderButton);
+        productPanel.add (profileButton);
 
         //set component bounds (only needed by Absolute Positioning)
         addProductButton.setBounds (100, 450, 120, 25);
         purchaseButton.setBounds (250, 450, 120,25);
-        placeHolderButton.setBounds (700, 450, 120, 25);
+        profileButton.setBounds (700, 450, 120, 25);
 
 
         //Add listeners to buttons
@@ -83,6 +83,11 @@ public class ProductForm implements ActionListener {
 
         purchaseButton.addActionListener(this);
         purchaseButton.setActionCommand("buyProduct");
+
+        profileButton.addActionListener(this);
+        profileButton.setActionCommand("visitProfile");
+
+
     }
 
     /**
@@ -140,6 +145,10 @@ public class ProductForm implements ActionListener {
             case "buyProduct":
                 buyProduct();
                 break;
+            case "visitProfile":
+                c.getMainForm().setProfilePanel();
+                break;
+
         }
 
     }

@@ -73,7 +73,7 @@ public class Client {
     }
 
     /**
-     * Sends a user object to the server for logging in.
+     * Sends a user object to the server for logging in/ for marketplace access
      * @param username The username of the user.
      * @param password The password of the user.
      * @throws IOException
@@ -82,6 +82,13 @@ public class Client {
         User user = new User(username, password, true);
         oos.writeObject(user);
         oos.flush();
+    }
+
+    public void accessMarketplace() throws IOException {
+        String message = "marketplace";
+        oos.writeObject(message);
+        oos.flush();
+
     }
 
     public void sendRequesttoServer( int productId) throws IOException {
@@ -179,4 +186,6 @@ public class Client {
     public User getCurrentUser(){
         return new User("todo", "later", true); //I guess we need an instance variable for this?
     }
+
+
 }
