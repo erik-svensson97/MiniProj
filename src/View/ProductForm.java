@@ -146,7 +146,11 @@ public class ProductForm implements ActionListener {
                 buyProduct();
                 break;
             case "visitProfile":
-                c.getMainForm().setProfilePanel();
+                try {
+                    c.sendUserIdToServerProfile(c.getUserId());
+                } catch (IOException ex) {
+                    ex.printStackTrace();
+                }
                 break;
 
         }

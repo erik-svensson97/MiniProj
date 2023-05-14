@@ -10,6 +10,7 @@ import javax.swing.table.DefaultTableModel;
 import java.io.*;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.sql.SQLException;
 import java.util.Hashtable;
 
 /**
@@ -76,6 +77,13 @@ public class Server {
                             if (object == "marketplace") {
                                 getAllProductsFromDatabase();
                             }
+                        } else if(object instanceof Integer){
+                            //sendClientUsersProducts();
+                            try {
+                                sendClientBuyReqs((int)object);
+                            } catch (SQLException e) {
+                                e.printStackTrace();
+                            }
                         }
                     }
                 } catch (IOException e) {
@@ -86,6 +94,14 @@ public class Server {
             }).start();
         }
     }
+
+    private void sendClientBuyReqs(int userId) throws SQLException, IOException {
+        oos.writeObject(productProcedures.getBuyReqs(userId));
+        oos.flush();
+    }
+
+   // private void sendClientUsersProducts() {
+  //  }
 
     /**
      * Handles buy requests from the client

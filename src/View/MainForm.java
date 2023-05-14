@@ -89,6 +89,10 @@ public class MainForm {
         return this.productForm;
     }
 
+    public ProfileForm getProfileForm() {
+        return profileForm;
+    }
+
     /**
      * Sets the look and feel for the application.
      */

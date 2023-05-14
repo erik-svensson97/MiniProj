@@ -2,6 +2,7 @@ package Controller;
 
 import Model.Product;
 import Model.Request;
+import Model.TableType;
 import Model.User;
 import View.MainForm;
 
@@ -99,6 +100,14 @@ public class Client {
     }
 
     /**
+     * Sends the user_id of your user to receive information about your products and order history
+     */
+    public void sendUserIdToServerProfile(int userId) throws IOException {
+        oos.writeObject(userId);
+        oos.flush();
+    }
+
+    /**
      * Reads a message that was received from the server.
      */
     public void readMessagesFromServer() {
@@ -144,6 +153,11 @@ public class Client {
     public void handleHashtableFromServer(Hashtable<String, DefaultTableModel> hashtable) {
         if(hashtable.containsKey("Marketplace Products")){
             mainForm.getProductForm().createTableModel(hashtable.get("Marketplace Products"));
+        } else if(hashtable.containsKey("My Products")){
+            mainForm.getProfileForm().createTableModels(hashtable.get("My Products"), TableType.activePosts);
+        } else if(hashtable.containsKey("Buy Requests")){
+            mainForm.getProfileForm().createTableModels(hashtable.get("Buy Requests"), TableType.buyRequests);
+            mainForm.setProfilePanel();
         }
     }
 
@@ -190,5 +204,7 @@ public class Client {
         return new User("todo", "later", true); //I guess we need an instance variable for this?
     }
 
-
+    public int getUserId() {
+        return userId;
+    }
 }
